@@ -17,7 +17,7 @@ using System.Web;
 
 namespace Panacea.Modules.Radio
 {
-    public class RadioPlugin : ICallablePlugin, IHasFavoritesPlugin, IContentPlugin
+    public class RadioPlugin : ICallablePlugin, IUpdatesFavorites, IContentPlugin
     {
         VTunerLazyItemProvider _provider;
         RadioListViewModel _radioList;
@@ -97,6 +97,11 @@ namespace Panacea.Modules.Radio
         public Task Shutdown()
         {
             return Task.CompletedTask;
+        }
+
+        public void UpdateFavorites()
+        {
+            
         }
     }
 }
