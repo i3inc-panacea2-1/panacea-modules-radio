@@ -1,0 +1,147 @@
+﻿<UserControl
+    x:Class="Panacea.Modules.Radio.Views.RadioList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Panacea.Modules.Radio.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Panacea.Modules.Radio"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:Panacea.Modules.Radio.Models"
+    xmlns:multilinguality="clr-namespace:Panacea.Multilinguality;assembly=Panacea.Multilinguality"
+    xmlns:panacealib="clr-namespace:Panacea.ContentControls;assembly=Panacea.ContentControls"
+    xmlns:pcontrols="clr-namespace:Panacea.Controls;assembly=Panacea.Controls"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:IsFavoriteToVisibilityConverter x:Key="IsFavoriteToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid Margin="0,0,10,0" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <UniformGrid Name="menu" Columns="1" />
+        </Grid>
+        <Grid>
+
+            <ScrollViewer
+                HorizontalAlignment="Stretch"
+                PanningMode="VerticalOnly"
+                VerticalScrollBarVisibility="Hidden">
+                <UniformGrid
+                    Name="panel"
+                    VerticalAlignment="Center"
+                    Columns="3" />
+            </ScrollViewer>
+
+            <panacealib:LazyLoadingTabControl
+                Name="lazy"
+                Title="{multilinguality:Translate 'Radio',
+                                                  'Radio'}"
+                Columns="5"
+                ItemProvider="{Binding Provider}"
+                MaterialIcon="radio"
+                OpenItemCommand="{Binding ItemClickCommand}"
+                Ratio="0.8"
+                Color="#512DA8">
+                <panacealib:LazyLoadingTabControl.ThumbnailExtraTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Resources>
+
+                                <DataTemplate DataType="{x:Type models:RadioItem}">
+                                    <Grid Margin="0,5,0,0" VerticalAlignment="Stretch">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <TextBlock
+                                            VerticalAlignment="Top"
+                                            FontSize="{DynamicResource FontSize-Xx-Small}"
+                                            Foreground="#ff888888"
+                                            Text="{Binding Description}"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <pcontrols:RatingControl
+                                            Grid.Row="1"
+                                            Margin="0,10,0,10"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Bottom"
+                                            BackgroundColor="White"
+                                            Maximum="10"
+                                            Minimum="0"
+                                            NumberOfStars="5"
+                                            StarForegroundColor="Gold"
+                                            StarOutlineColor="DarkGoldenrod"
+                                            Value="{Binding Rating}" />
+                                        <Grid Grid.Row="2" VerticalAlignment="Bottom">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button
+                                                pcontrols:Material.Icon="info"
+                                                Background="#B0B09E"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=panacealib:LazyLoadingTabControl}, Path=DataContext.InfoClickCommand}"
+                                                CommandParameter="{Binding}"
+                                                Content="{multilinguality:Translate 'Info',
+                                                                                    'Games'}"
+                                                Style="{DynamicResource PrimaryButton}" />
+                                            <Button
+                                                Grid.Column="1"
+                                                pcontrols:Material.Icon="favorite"
+                                                Background="{DynamicResource ColorInformation}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=panacealib:LazyLoadingTabControl}, Path=DataContext.FavoriteCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{DynamicResource PrimaryButton}">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}" 
+                                                                  ConverterParameter="False">
+                                                        <Binding Path="DataContext.IsFavoriteCommand" RelativeSource="{RelativeSource AncestorType=panacealib:LazyLoadingTabControl}" />
+                                                        <Binding />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+
+                                            </Button>
+                                            <Button
+                                                Grid.Column="1"
+                                                pcontrols:Material.Icon="favorite"
+                                                Background="{DynamicResource ColorError}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=panacealib:LazyLoadingTabControl}, Path=DataContext.FavoriteCommand}"
+                                                CommandParameter="{Binding}"
+                                                Style="{DynamicResource PrimaryButton}">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}" 
+                                                                  ConverterParameter="True">
+                                                        <Binding Path="DataContext.IsFavoriteCommand" RelativeSource="{RelativeSource AncestorType=panacealib:LazyLoadingTabControl}" />
+                                                        <Binding />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type models:Category}">
+                                    <Grid Margin="0,5,0,0" VerticalAlignment="Stretch">
+                                        <Button
+                                            pcontrols:Material.Icon="folder"
+                                            Background="#009688"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=panacealib:LazyLoadingTabControl}, Path=DataContext.ItemClickCommand}"
+                                            CommandParameter="{Binding}"
+                                            Content="{multilinguality:Translate 'Open',
+                                                                                'Radio'}"
+                                            Style="{DynamicResource PrimaryButton}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </DataTemplate>
+                </panacealib:LazyLoadingTabControl.ThumbnailExtraTemplate>
+                <!--  todo add back button  -->
+            </panacealib:LazyLoadingTabControl>
+        </Grid>
+    </Grid>
+</UserControl>
