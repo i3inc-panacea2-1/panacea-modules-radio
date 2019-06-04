@@ -30,7 +30,8 @@ namespace Panacea.Modules.Radio
         List<ServerItem> _favorites;
         private readonly PanaceaServices _core;
 
-        public List<ServerItem> Favorites {
+        public List<ServerItem> Favorites
+        {
             get => _favorites;
             set
             {
@@ -45,7 +46,7 @@ namespace Panacea.Modules.Radio
 
         public void Call()
         {
-           
+
             if (_core.TryGetUiManager(out IUiManager ui))
             {
                 _provider = _provider ?? new VTunerLazyItemProvider(_core.HttpClient, 10);
@@ -57,7 +58,7 @@ namespace Panacea.Modules.Radio
 
         public void Dispose()
         {
-            
+
         }
 
         public Task EndInit()
@@ -65,26 +66,32 @@ namespace Panacea.Modules.Radio
             return Task.CompletedTask;
         }
 
-        public Task OpenItemAsync(ServerItem item)
+        public async Task OpenItemAsync(ServerItem item)
         {
+            if (_core.TryGetBilling(out IBillingManager billing))
+            {
+                var serv = await billing.GetServiceForItemAsync("Radio requires service", "Radio", item);
+                if (serv == null)
+                {
+                    return;
+                }
+            }
             var radio = item as RadioItem;
-            if(_core.TryGetMediaPlayerContainer(out IMediaPlayerContainer player))
+            if (_core.TryGetMediaPlayerContainer(out IMediaPlayerContainer player))
             {
                 player.Play(
                 new MediaRequest(new IptvMedia
-                    {
-                        URL = HttpUtility.UrlDecode(radio.Url),
-                        Name = radio.Name,
+                {
+                    URL = HttpUtility.UrlDecode(radio.Url),
+                    Name = radio.Name,
                 })
-                { 
+                {
                     ShowVideo = false,
                     AllowPip = false,
                     FullscreenMode = FullscreenMode.NoFullscreen,
                     MediaPlayerPosition = MediaPlayerPosition.Notification
                 });
-
             }
-            return Task.CompletedTask;
         }
 
         public Task Shutdown()
