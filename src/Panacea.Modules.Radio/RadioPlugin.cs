@@ -70,7 +70,7 @@ namespace Panacea.Modules.Radio
         {
             if (_core.TryGetBilling(out IBillingManager billing))
             {
-                var serv = await billing.GetServiceForItemAsync("Radio requires service", "Radio", item);
+                var serv = await billing.GetOrRequestServiceForItemAsync("Radio requires service", "Radio", item);
                 if (serv == null)
                 {
                     return;
