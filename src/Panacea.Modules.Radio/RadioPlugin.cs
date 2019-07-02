@@ -63,6 +63,7 @@ namespace Panacea.Modules.Radio
 
         public Task EndInit()
         {
+            //_core.WebSocket.Emit("get_cookie", new { pluginName = "Radio", user = e.ID }, false);
             return Task.CompletedTask;
         }
 
@@ -101,7 +102,7 @@ namespace Panacea.Modules.Radio
 
         public void UpdateFavorites()
         {
-            
+            _core.WebSocket.Emit("set_cookie", new { pluginName = "Radio", user = _core.UserService.User.Id, data = Favorites });
         }
     }
 }

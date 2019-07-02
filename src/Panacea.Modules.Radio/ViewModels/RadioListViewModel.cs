@@ -97,7 +97,7 @@ namespace Panacea.Modules.Radio.ViewModels
                             plugin.Favorites.Add(link);
                             ui.Toast(new Translator(pluginName).Translate("This radio station has been added to your favorites"));
                         }
-                        //webSocket.Emit("set_cookie", new { pluginName = "Radio", user = userManager.User.ID, data = plugin.Favorites });
+                        core.WebSocket.Emit("set_cookie", new { pluginName = "Radio", user = core.UserService.User.Id, data = plugin.Favorites });
                         OnPropertyChanged("IsFavoriteCommand");
                     }
                 }
