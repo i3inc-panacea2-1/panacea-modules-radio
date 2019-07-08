@@ -307,10 +307,16 @@ namespace Panacea.Modules.Radio
 
         public async Task SearchAsync(string wildcard)
         {
-            IsBusy = true;
+           
             try
             {
                 search = wildcard;
+                _cts?.Cancel();
+                var source = new CancellationTokenSource();
+                _cts = source;
+                await Task.Delay(1000);
+                IsBusy = true;
+                if (source.IsCancellationRequested) return;
                 Items = await GetItems(vTunerUrl + "asp/browsexml/search.asp?sSearchtype=2&search=" + HttpUtility.UrlEncode(wildcard));
             }
             finally

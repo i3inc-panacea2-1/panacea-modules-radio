@@ -43,6 +43,8 @@
                 Columns="5"
                 ItemProvider="{Binding Provider}"
                 MaterialIcon="radio"
+                NoItemsText="{multilinguality:Translate 'No radio stations found',
+                                                        'Radio'}"
                 OpenItemCommand="{Binding ItemClickCommand}"
                 Ratio="0.8"
                 Color="#512DA8">
@@ -99,7 +101,7 @@
                                                 Style="{DynamicResource PrimaryButton}"
                                                 Visibility="Collapsed">
                                                 <!--<Button.Visibility>
-                                                    <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}" 
+                                                    <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}"
                                                                   ConverterParameter="False">
                                                         <Binding Path="DataContext.IsFavoriteCommand" RelativeSource="{RelativeSource AncestorType=panacealib:LazyLoadingTabControl}" />
                                                         <Binding />
@@ -115,8 +117,7 @@
                                                 CommandParameter="{Binding}"
                                                 Style="{DynamicResource PrimaryButton}">
                                                 <Button.Visibility>
-                                                    <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}" 
-                                                                  ConverterParameter="True">
+                                                    <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}" ConverterParameter="True">
                                                         <Binding Path="DataContext.IsFavoriteCommand" RelativeSource="{RelativeSource AncestorType=panacealib:LazyLoadingTabControl}" />
                                                         <Binding />
                                                     </MultiBinding>
