@@ -88,6 +88,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BlowFish.cs" />
+    <Compile Include="Converters\DoubleSizeConverter.cs" />
     <Compile Include="Converters\IsFavoriteToVisibilityConverter.cs" />
     <Compile Include="Models\RadioGetSettingsResponse.cs" />
     <Compile Include="Models\RadioItem.cs" />
@@ -164,6 +165,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\folder.png" />
+    <Resource Include="Images\radio.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

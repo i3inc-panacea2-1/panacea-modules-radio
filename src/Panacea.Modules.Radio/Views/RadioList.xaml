@@ -38,6 +38,7 @@
 
             <panacealib:LazyLoadingTabControl
                 Name="lazy"
+                
                 Title="{multilinguality:Translate 'Radio',
                                                   'Radio'}"
                 Columns="5"

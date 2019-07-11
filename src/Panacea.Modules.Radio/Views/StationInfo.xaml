@@ -2,6 +2,7 @@
     x:Class="Panacea.Modules.Radio.Views.StationInfo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Panacea.Modules.Radio.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Panacea.Modules.Radio.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
-
+            <converters:DoubleSizeConverter x:Key="DoubleSizeConverter" />
             <Style x:Key="Label" TargetType="TextBlock">
                 <Style.Setters>
                     <Setter Property="Foreground" Value="#88000000" />
@@ -54,19 +55,26 @@
             Text="{Binding RadioItem.Name}"
             TextAlignment="Center"
             TextWrapping="Wrap" />
+        <Grid Name="ugrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1.9*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Viewbox x:Name="img" Grid.Column="1">
+
+                <pcontrols:CacheImage
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    ImageUrl="{Binding RadioItem.ImgThumbnail.Image}" />
+            </Viewbox>
+
+        </Grid>
+
         <UniformGrid
-            Name="ugrid"
-            Grid.Row="1"
+            Grid.Row="3"
+            MaxWidth="{Binding ElementName=img, Path=ActualWidth, Converter={StaticResource DoubleSizeConverter}}"
             Columns="1">
-
-            <pcontrols:CacheImage
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                ImageUrl="{Binding RadioItem.ImgThumbnail.Image}" />
-
-        </UniformGrid>
-      
-        <UniformGrid Grid.Row="3" Columns="1">
             <Grid Margin="8" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

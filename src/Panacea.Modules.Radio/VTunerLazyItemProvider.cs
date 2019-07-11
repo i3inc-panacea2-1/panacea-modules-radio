@@ -261,7 +261,7 @@ namespace Panacea.Modules.Radio
                 Url = dir.Element("UrlDir")?.Value,
                 ImgThumbnail = new Thumbnail
                 {
-                    Image = "pack://application:,,,/UserPlugins.Radio;component/resources/images/folder.png"
+                    Image = "pack://application:,,,/Panacea.Modules.Radio;component/Images/folder.png"
                 }
             });
 
@@ -285,7 +285,7 @@ namespace Panacea.Modules.Radio
                     ImgThumbnail = new Thumbnail
                     {
                         Image =
-                            "pack://application:,,,/UserPlugins.Radio;component/resources/images/radio.png"
+                            "pack://application:,,,/Panacea.Modules.Radio;component/Images/radio.png"
                     }
                 };
 
