@@ -38,7 +38,6 @@
 
             <panacealib:LazyLoadingTabControl
                 Name="lazy"
-                
                 Title="{multilinguality:Translate 'Radio',
                                                   'Radio'}"
                 Columns="5"
@@ -91,7 +90,7 @@
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=panacealib:LazyLoadingTabControl}, Path=DataContext.InfoClickCommand}"
                                                 CommandParameter="{Binding}"
                                                 Content="{multilinguality:Translate 'Info',
-                                                                                    'Games'}"
+                                                                                    'Radio'}"
                                                 Style="{DynamicResource PrimaryButton}" />
                                             <Button
                                                 Grid.Column="1"
