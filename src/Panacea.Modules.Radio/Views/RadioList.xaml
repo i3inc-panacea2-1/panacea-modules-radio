@@ -99,14 +99,14 @@
                                                 Command="{Binding RelativeSource={RelativeSource AncestorType=panacealib:LazyLoadingTabControl}, Path=DataContext.FavoriteCommand}"
                                                 CommandParameter="{Binding}"
                                                 Style="{DynamicResource PrimaryButton}"
-                                                Visibility="Collapsed">
-                                                <!--<Button.Visibility>
+                                                >
+                                                <Button.Visibility>
                                                     <MultiBinding Converter="{StaticResource IsFavoriteToVisibilityConverter}"
                                                                   ConverterParameter="False">
                                                         <Binding Path="DataContext.IsFavoriteCommand" RelativeSource="{RelativeSource AncestorType=panacealib:LazyLoadingTabControl}" />
                                                         <Binding />
                                                     </MultiBinding>
-                                                </Button.Visibility>-->
+                                                </Button.Visibility>
 
                                             </Button>
                                             <Button

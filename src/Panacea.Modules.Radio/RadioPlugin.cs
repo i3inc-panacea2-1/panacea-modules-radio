@@ -17,7 +17,8 @@ using System.Web;
 
 namespace Panacea.Modules.Radio
 {
-    public class RadioPlugin : ICallablePlugin, IUpdatesFavorites, IContentPlugin
+    [FriendlyName("Radio")]
+    public class RadioPlugin : ICallablePlugin, IUpdatesFavorites, IContentPlugin, IHasFavoritesPlugin
     {
         VTunerLazyItemProvider _provider;
         RadioListViewModel _radioList;
@@ -52,7 +53,7 @@ namespace Panacea.Modules.Radio
                 _provider = _provider ?? new VTunerLazyItemProvider(_core.HttpClient, 10);
                 _radioList = _radioList ?? new RadioListViewModel(_core, this, _provider);
                 ui.Navigate(_radioList);
-                //_websocket.PopularNotifyPage("Radio");
+                _core.WebSocket.PopularNotifyPage("Radio");
             }
         }
 
@@ -63,7 +64,16 @@ namespace Panacea.Modules.Radio
 
         public Task EndInit()
         {
-            //_core.WebSocket.Emit("get_cookie", new { pluginName = "Radio", user = e.ID }, false);
+            _core.WebSocket.On<SendCookieRadioResponse>("send_cookie", dyn =>
+            {
+                if (dyn.PluginName == "Radio")
+                {
+
+                    Favorites = dyn.Stations.Cast<ServerItem>().ToList() ?? new List<ServerItem>();
+
+                }
+            });
+            _core.WebSocket.Emit("get_cookie", new { pluginName = "Radio", user = _core.UserService.User?.Id }, false);
             return Task.CompletedTask;
         }
 
@@ -102,6 +112,11 @@ namespace Panacea.Modules.Radio
         public void UpdateFavorites()
         {
             _core.WebSocket.Emit("set_cookie", new { pluginName = "Radio", user = _core.UserService.User.Id, data = Favorites });
+        }
+
+        public Type GetContentType()
+        {
+            return typeof(RadioItem);
         }
     }
 }
